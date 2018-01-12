@@ -30,6 +30,8 @@ func TestGenerateTemplate(t *testing.T) {
 		{in: `<?xml version="1.0"?>`, want: `<?xml version="1.0"?>`},
 		{in: `K={{env "GOENVTEMPLATOR_DEFINED_VAR"}}`, want: `K={{env "GOENVTEMPLATOR_DEFINED_VAR"}}`, err: nil, leftDelim: "[[", rightDelim: "]]"},
 		{in: `K=[[env "GOENVTEMPLATOR_DEFINED_VAR"]]`, want: `K=foo`, err: nil, leftDelim: "[[", rightDelim: "]]"},
+		{in: `K={{ require (env "FOO" )}}`, err: template.ExecError{}},
+		{in: `K={{ require (env "GOENVTEMPLATOR_DEFINED_VAR" )}}`, want: `K=foo`},
 	}
 
 	os.Setenv("GOENVTEMPLATOR_DEFINED_VAR", "foo")

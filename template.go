@@ -11,36 +11,11 @@ import (
 	"text/template"
 )
 
-type OptionalString struct {
-	ptr *string
-}
-
-func (s OptionalString) String() string {
-	if s.ptr == nil {
-		return ""
-	}
-	return *s.ptr
-}
-
-func Require(arg interface{}) (string, error) {
-	if arg == nil {
+func Require(arg string) (string, error) {
+	if len(arg) == 0 {
 		return "", errors.New("Required argument is missing!")
 	}
-
-	switch v := arg.(type) {
-	case string:
-		return v, nil
-	case *string:
-		if v != nil {
-			return *v, nil
-		}
-	case OptionalString:
-		if v.ptr != nil {
-			return *v.ptr, nil
-		}
-	}
-
-	return "", fmt.Errorf("Requires: unsupported type '%T'!", v)
+	return arg, nil
 }
 
 var funcMap = template.FuncMap{
