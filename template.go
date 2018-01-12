@@ -13,7 +13,7 @@ import (
 
 func Require(arg string) (string, error) {
 	if len(arg) == 0 {
-		return "", errors.New("Required argument is missing!")
+		return "", errors.New("Required argument is missing or empty!")
 	}
 	return arg, nil
 }
