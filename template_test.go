@@ -32,9 +32,11 @@ func TestGenerateTemplate(t *testing.T) {
 		{in: `K=[[env "GOENVTEMPLATOR_DEFINED_VAR"]]`, want: `K=foo`, err: nil, leftDelim: "[[", rightDelim: "]]"},
 		{in: `K={{ require (env "FOO" )}}`, err: template.ExecError{}},
 		{in: `K={{ require (env "GOENVTEMPLATOR_DEFINED_VAR" )}}`, want: `K=foo`},
+		{in: `K={{ require (env "GOENVTEMPLATOR_DEFINED_VAR_EMPTY" )}}`, err: template.ExecError{}},
 	}
 
 	os.Setenv("GOENVTEMPLATOR_DEFINED_VAR", "foo")
+	os.Setenv("GOENVTEMPLATOR_DEFINED_VAR_EMPTY", "")
 
 	err := godotenv.Load("./tests/fixtures.env")
 	if err != nil {
