@@ -33,6 +33,10 @@ func TestGenerateTemplate(t *testing.T) {
 		{in: `K={{ require (env "FOO" )}}`, err: template.ExecError{}},
 		{in: `K={{ require (env "GOENVTEMPLATOR_DEFINED_VAR" )}}`, want: `K=foo`},
 		{in: `K={{ require (env "GOENVTEMPLATOR_DEFINED_VAR_EMPTY" )}}`, err: template.ExecError{}},
+		{in: `K={{ required "message" (env "GOENVTEMPLATOR_DEFINED_VAR_EMPTY") }}`, err: template.ExecError{}},
+		{in: `K={{ required "message" (env "GOENVTEMPLATOR_DEFINED_VAR_EMPTY" | default "foo") }}`, want: `K=foo`},
+		{in: `K={{ required "message" "foo" }}`, want: `K=foo`},
+		{in: `K={{ required "message" "" }}`, err: template.ExecError{}},
 	}
 
 	os.Setenv("GOENVTEMPLATOR_DEFINED_VAR", "foo")

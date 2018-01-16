@@ -20,8 +20,22 @@ func Require(arg string) (string, error) {
 	return arg, nil
 }
 
+// copied from Helm source:
+// https://github.com/kubernetes/helm/blob/78d6b930bd325ed87b297c57b02fc7c9c7dfcfac/pkg/engine/engine.go#L156-L165
+func Required(warn string, val interface{}) (interface{}, error) {
+	if val == nil {
+		return val, fmt.Errorf(warn)
+	} else if _, ok := val.(string); ok {
+		if val == "" {
+			return val, fmt.Errorf(warn)
+		}
+	}
+	return val, nil
+}
+
 var funcMap = template.FuncMap{
-	"require": Require,
+	"require":  Require,
+	"required": Required,
 }
 
 func generateTemplate(source, name string, delimLeft string, delimRight string) (string, error) {

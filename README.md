@@ -98,7 +98,7 @@ and [Sprig](https://github.com/Masterminds/sprig) library.
 
 ### Built-in functions
 There are a few built in functions as well:
-  * `require (env "ENV_NAME")` - Renders an error if the environment variable `ENV_NAME` does not exists or it is equal to empty string. `{{ require (env "TIMEOUT_MS) }}`
+  * `required "Error message" Value` - Renders an error if `Value` is nil or it is equal to empty string. `{{ require "Timeout is required!" (env "TIMEOUT_MS) }}`
 
 ### Nested Go templates
 If you have nested Go templates there is problem with escaping. To resolve this problem you can define different 
