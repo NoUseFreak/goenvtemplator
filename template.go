@@ -7,11 +7,13 @@ import (
 	"github.com/Masterminds/sprig"
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 	"text/template"
 )
 
 func Require(arg string) (string, error) {
+	fmt.Fprintf(os.Stderr, "WARNING: require built-in function will be deprecated in future release. Use required instead.\n")
 	if len(arg) == 0 {
 		return "", errors.New("Required argument is missing or empty!")
 	}
